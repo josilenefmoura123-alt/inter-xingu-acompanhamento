@@ -1,0 +1,19 @@
+INTER XINGU - ACOMPANHAMENTO FÍSICO
+
+Esta é a primeira versão do aplicativo (PWA).
+Ela inclui:
+- cadastro de atletas;
+- registro de peso e altura;
+- cálculo de IMC;
+- avaliações;
+- área demonstrativa para responsáveis;
+- armazenamento local no navegador;
+- ícone e escudo da Escolinha Inter Xingu.
+
+IMPORTANTE:
+Esta versão ainda NÃO possui banco de dados online nem login real para pais.
+Para colocar o sistema em funcionamento online para vários celulares/computadores,
+será necessário publicar os arquivos em um domínio HTTPS e conectar um banco de dados
+com autenticação e controle de acesso.
+
+A instalação como PWA depende de HTTPS (ou localhost durante desenvolvimento).

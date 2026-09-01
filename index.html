@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06152f">
+<meta name="description" content="Inter Xingu - Acompanhamento Físico">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/logo.png">
+<title>Inter Xingu • Acompanhamento Físico</title>
+<style>
+:root{--blue:#0878ff;--dark:#06152f;--bg:#f4f7fb;--card:#fff;--text:#10203a;--muted:#65748b;--line:#dbe3ee}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,#06152f,#075cff);color:#fff;padding:20px 16px}
+.brand{display:flex;align-items:center;gap:12px;max-width:1100px;margin:auto}.brand img{width:58px;height:58px;border-radius:50%;object-fit:cover}.brand h1{margin:0;font-size:21px}.brand p{margin:3px 0 0;opacity:.85;font-size:13px}
+main{max-width:1100px;margin:auto;padding:16px}.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:16px}.tab{border:1px solid var(--line);background:#fff;padding:11px 14px;border-radius:11px;font-weight:700;white-space:nowrap;cursor:pointer}.tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:16px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.stat{font-size:28px;font-weight:800}.muted{color:var(--muted);font-size:13px}label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}input,select,button{width:100%;min-height:44px;border-radius:10px;font-size:16px}input,select{border:1px solid var(--line);padding:10px;background:#fff}button{border:0;background:var(--blue);color:#fff;font-weight:700;padding:10px 14px;cursor:pointer}.secondary{background:#eef4ff;color:#075cff}.hidden{display:none}.athlete{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid var(--line)}.badge{font-size:12px;padding:5px 8px;border-radius:20px;background:#edf7ef;color:#19733a;height:max-content}.warn{background:#fff7e6;color:#8a5a00;padding:12px;border-radius:10px}.footer{text-align:center;color:var(--muted);font-size:12px;padding:15px}
+</style>
+</head>
+<body>
+<header><div class="brand"><img src="icons/logo.png" alt="Escudo da Escolinha de Futebol Inter Xingu"><div><h1>INTER XINGU</h1><p>Acompanhamento Físico • Administração: Profª Lôlôh Moura</p></div></div></header>
+<main>
+<nav class="tabs">
+<button class="tab active" data-view="dashboard">🏠 Painel</button>
+<button class="tab" data-view="athletes">👥 Atletas</button>
+<button class="tab" data-view="evaluation">📏 Avaliação</button>
+<button class="tab" data-view="parents">📱 Pais</button>
+</nav>
+
+<section id="dashboard" class="view">
+<div class="grid">
+<div class="panel"><div class="muted">Atletas cadastrados</div><div id="count" class="stat">0</div></div>
+<div class="panel"><div class="muted">Avaliações</div><div id="ecount" class="stat">0</div></div>
+<div class="panel"><div class="muted">Última avaliação</div><div id="last" class="stat" style="font-size:18px">—</div></div>
+</div>
+<div class="panel"><h2>Inter Xingu — Profª Lôlôh Moura</h2><p class="muted">Acompanhe crescimento, evolução e avaliações dos atletas.</p><button onclick="go('evaluation')">+ Nova avaliação</button></div>
+<div class="panel"><strong>Importante</strong><p class="muted">Para crianças e adolescentes, o IMC deve ser interpretado por idade e sexo, usando curvas de crescimento. Este aplicativo não define automaticamente metas de emagrecimento.</p></div>
+</section>
+
+<section id="athletes" class="view hidden">
+<div class="panel"><h2>Novo atleta</h2><div class="grid">
+<div><label>Nome completo</label><input id="name" placeholder="Nome do atleta"></div>
+<div><label>Data de nascimento</label><input id="birth" type="date"></div>
+<div><label>Sexo</label><select id="sex"><option value="">Selecione</option><option value="M">Masculino</option><option value="F">Feminino</option></select></div>
+<div><label>Categoria</label><select id="cat"><option>Sub-07</option><option>Sub-09</option><option>Sub-10</option><option>Sub-11</option><option>Sub-12</option><option>Sub-13</option><option>Sub-14</option><option>Sub-15</option><option>Sub-17</option></select></div>
+<div><label>Responsável</label><input id="guardian" placeholder="Nome do responsável"></div>
+<div><label>Contato</label><input id="phone" placeholder="Telefone"></div>
+</div><button style="margin-top:12px" onclick="addAthlete()">Cadastrar atleta</button></div>
+<div class="panel"><h2>Atletas cadastrados</h2><div id="list" class="muted">Nenhum atleta cadastrado.</div></div>
+</section>
+
+<section id="evaluation" class="view hidden">
+<div class="panel"><h2>Nova avaliação física</h2><div class="grid">
+<div><label>Atleta</label><select id="athleteSelect"></select></div>
+<div><label>Data</label><input id="date" type="date"></div>
+<div><label>Peso (kg)</label><input id="weight" type="number" min="2" step=".1"></div>
+<div><label>Altura (cm)</label><input id="height" type="number" min="40" step=".1"></div>
+</div><button style="margin-top:12px" onclick="saveEvaluation()">Calcular e salvar</button><div id="result" style="margin-top:12px"></div></div>
+</section>
+
+<section id="parents" class="view hidden">
+<div class="panel"><h2>📱 Área dos pais</h2><p class="muted">Demonstração da ficha que ficará disponível para o responsável. O login online real será conectado ao banco de dados na próxima etapa.</p>
+<div><label>Atleta</label><select id="parentSelect" onchange="showParent()"></select></div>
+<div id="parentView" style="margin-top:15px"></div></div>
+</section>
+<div class="footer">Administrado por <strong>Profª Lôlôh Moura</strong> • Inter Xingu • Atitude de craque, foco de campeão!</div>
+</main>
+<script>
+let athletes=JSON.parse(localStorage.getItem('ixAthletes')||'[]');
+let evaluations=JSON.parse(localStorage.getItem('ixEvaluations')||'[]');
+const today=new Date().toISOString().slice(0,10);document.getElementById('date').value=today;
+function save(){localStorage.setItem('ixAthletes',JSON.stringify(athletes));localStorage.setItem('ixEvaluations',JSON.stringify(evaluations));}
+function go(view){document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));document.getElementById(view).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.view===view));render();}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>go(b.dataset.view)));
+function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function age(b,d){let x=new Date(d),y=new Date(b),a=x.getFullYear()-y.getFullYear();if(x.getMonth()<y.getMonth()||(x.getMonth()===y.getMonth()&&x.getDate()<y.getDate()))a--;return a;}
+function render(){
+document.getElementById('count').textContent=athletes.length;document.getElementById('ecount').textContent=evaluations.length;
+document.getElementById('last').textContent=evaluations.length?evaluations[evaluations.length-1].date:'—';
+const list=document.getElementById('list');list.innerHTML='';
+if(!athletes.length){list.innerHTML='<span class="muted">Nenhum atleta cadastrado.</span>';}
+athletes.forEach((a,i)=>{const e=evaluations.filter(x=>x.ai===i).slice(-1)[0];const d=document.createElement('div');d.className='athlete';d.innerHTML='<div><b>'+esc(a.name)+'</b><div class="muted">'+a.cat+' • responsável: '+esc(a.guardian||'não informado')+'</div></div><span class="badge">'+(e?'IMC '+e.bmi:'Sem avaliação')+'</span>';list.appendChild(d);});
+['athleteSelect','parentSelect'].forEach(id=>{const s=document.getElementById(id);s.innerHTML='';if(!athletes.length){s.innerHTML='<option>Nenhum atleta cadastrado</option>';return}athletes.forEach((a,i)=>{const o=document.createElement('option');o.value=i;o.textContent=a.name+' • '+a.cat;s.appendChild(o);});});
+showParent();
+}
+function addAthlete(){const a={name:document.getElementById('name').value.trim(),birth:document.getElementById('birth').value,sex:document.getElementById('sex').value,cat:document.getElementById('cat').value,guardian:document.getElementById('guardian').value.trim(),phone:document.getElementById('phone').value.trim()};if(!a.name||!a.birth||!a.sex){alert('Preencha nome, data de nascimento e sexo.');return}athletes.push(a);save();['name','birth','guardian','phone'].forEach(id=>document.getElementById(id).value='');document.getElementById('sex').value='';alert('Atleta cadastrado com sucesso!');render();}
+function saveEvaluation(){if(!athletes.length){alert('Cadastre um atleta primeiro.');return}const ai=+document.getElementById('athleteSelect').value,d=document.getElementById('date').value,w=+document.getElementById('weight').value,h=+document.getElementById('height').value;if(!d||!w||!h||w<2||h<40){alert('Preencha data, peso e altura corretamente.');return}const bmi=w/Math.pow(h/100,2);evaluations.push({ai,date:d,weight:+w.toFixed(1),height:+h.toFixed(1),bmi:+bmi.toFixed(1)});save();document.getElementById('result').innerHTML='<div class="panel"><h3>IMC calculado: '+bmi.toFixed(1)+'</h3><p class="muted">O IMC de menores de 18 anos precisa ser interpretado por idade e sexo. A classificação clínica deve usar a curva apropriada.</p></div>';render();}
+function showParent(){const i=+document.getElementById('parentSelect').value,a=athletes[i],v=document.getElementById('parentView');if(!a){v.innerHTML='<p class="muted">Nenhum atleta disponível.</p>';return}const es=evaluations.filter(x=>x.ai===i),e=es[es.length-1];v.innerHTML='<div class="panel"><h3>'+esc(a.name)+'</h3><p class="muted">'+a.cat+' • '+age(a.birth,e?e.date:today)+' anos</p>'+(e?'<div class="grid"><div><b>'+e.weight+' kg</b><div class="muted">Peso</div></div><div><b>'+e.height+' cm</b><div class="muted">Altura</div></div><div><b>'+e.bmi+'</b><div class="muted">IMC</div></div></div>':'<p class="muted">Ainda não há avaliação registrada.</p>')+'</div>';}
+render();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body></html>
