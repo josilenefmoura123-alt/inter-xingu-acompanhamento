@@ -95,3 +95,27 @@ const SUPABASE_KEY = 'sb_publishable_TJNs6gReTnqXnZpK5j8XCA__dloYKZv';
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+async function loginAdmin() {
+  const email = prompt('E-mail do administrador:');
+  if (!email) return;
+
+  const senha = prompt('Senha do administrador:');
+  if (!senha) return;
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: senha
+  });
+
+  if (error) {
+    alert('E-mail ou senha incorretos.');
+    return;
+  }
+
+  alert('Login realizado com sucesso!');
+}
+
+window.addEventListener('load', loginAdmin);
+</script>
+</body>
+</html>
