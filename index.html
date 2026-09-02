@@ -88,5 +88,10 @@ function saveEvaluation(){if(!athletes.length){alert('Cadastre um atleta primeir
 function showParent(){const i=+document.getElementById('parentSelect').value,a=athletes[i],v=document.getElementById('parentView');if(!a){v.innerHTML='<p class="muted">Nenhum atleta disponível.</p>';return}const es=evaluations.filter(x=>x.ai===i),e=es[es.length-1];v.innerHTML='<div class="panel"><h3>'+esc(a.name)+'</h3><p class="muted">'+a.cat+' • '+age(a.birth,e?e.date:today)+' anos</p>'+(e?'<div class="grid"><div><b>'+e.weight+' kg</b><div class="muted">Peso</div></div><div><b>'+e.height+' cm</b><div class="muted">Altura</div></div><div><b>'+e.bmi+'</b><div class="muted">IMC</div></div></div>':'<p class="muted">Ainda não há avaliação registrada.</p>')+'</div>';}
 render();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-</script>
-</body></html>
+</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://qpaocbsmwxzpmeowaulq.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_TJNs6gReTnqXnZpK5j8XCA__dloYKZv';
+
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
