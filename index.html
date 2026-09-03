@@ -225,13 +225,7 @@ async function loginAdmin() {
   alert('Login realizado com sucesso!');
 }
 
-window.addEventListener('load', async () => {
-  const { data } = await supabaseClient.auth.getSession();
 
-  if (!data.session) {
-    await loginAdmin();
-  }
-});
  function gerarLinkResponsavel() {
   const select = document.getElementById('parentSelect');
 
