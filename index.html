@@ -253,6 +253,7 @@ async function loginAdmin() {
     .catch(() => prompt('Copie este link e envie para o responsável:', link));
 } 
 const atletaLink = new URLSearchParams(window.location.search).get('atleta');
+  if (atletaLink !== null) document.getElementById('dashboard').classList.add('hidden');
 
 if (atletaLink !== null) {
   setTimeout(() => {
