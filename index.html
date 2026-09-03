@@ -115,7 +115,13 @@ async function loginAdmin() {
   alert('Login realizado com sucesso!');
 }
 
-window.addEventListener('load', loginAdmin);
+window.addEventListener('load', async () => {
+  const { data } = await supabaseClient.auth.getSession();
+
+  if (!data.session) {
+    await loginAdmin();
+  }
+});
 </script>
 </body>
 </html>
