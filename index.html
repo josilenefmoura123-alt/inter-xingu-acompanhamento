@@ -232,6 +232,21 @@ window.addEventListener('load', async () => {
     await loginAdmin();
   }
 });
+ function gerarLinkResponsavel() {
+  const select = document.getElementById('parentSelect');
+
+  if (!select || select.selectedIndex < 0) {
+    alert('Selecione um atleta primeiro.');
+    return;
+  }
+
+  const atletaIndex = select.selectedIndex;
+  const link = window.location.origin + window.location.pathname + '?atleta=' + atletaIndex;
+
+  navigator.clipboard.writeText(link)
+    .then(() => alert('Link do responsável copiado! Agora é só enviar para os pais.'))
+    .catch(() => prompt('Copie este link e envie para o responsável:', link));
+} 
 </script>
 </body>
 </html>
