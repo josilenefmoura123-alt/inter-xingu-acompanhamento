@@ -73,6 +73,7 @@ const today=new Date().toISOString().slice(0,10);document.getElementById('date')
 function save(){localStorage.setItem('ixAthletes',JSON.stringify(athletes));localStorage.setItem('ixEvaluations',JSON.stringify(evaluations));}
 function go(view){document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));document.getElementById(view).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.view===view));render();}
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>go(b.dataset.view)));
+  if (new URLSearchParams(window.location.search).has('atleta')) document.querySelector('.tabs').style.display = 'none';
 function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
 function age(b,d){let x=new Date(d),y=new Date(b),a=x.getFullYear()-y.getFullYear();if(x.getMonth()<y.getMonth()||(x.getMonth()===y.getMonth()&&x.getDate()<y.getDate()))a--;return a;}
 function render(){
