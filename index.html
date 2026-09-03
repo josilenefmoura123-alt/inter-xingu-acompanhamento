@@ -241,6 +241,7 @@ async function loginAdmin() {
     .then(() => alert('Link do responsável copiado! Agora é só enviar para os pais.'))
     .catch(() => prompt('Copie este link e envie para o responsável:', link));
 } 
+window.showParent = gerarLinkResponsavel;
 </script>
 </body>
 </html>
