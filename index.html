@@ -204,6 +204,16 @@ const SUPABASE_URL = 'https://qpaocbsmwxzpmeowaulq.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_TJNs6gReTnqXnZpK5j8XCA__dloYKZv';
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  async function carregarAtletasOnline(){
+    const { data, error } = await supabaseClient.from('athletes').select('*');
+    if (error){
+      console,error(error);
+      return;
+    }
+    athletes = data || [];
+    render();
+  } 
+carregarAtletasOline();
 
 async function loginAdmin() {
   const email = prompt('E-mail do administrador:');
