@@ -83,7 +83,52 @@ athletes.forEach((a,i)=>{const e=evaluations.filter(x=>x.ai===i).slice(-1)[0];co
 ['athleteSelect','parentSelect'].forEach(id=>{const s=document.getElementById(id);s.innerHTML='';if(!athletes.length){s.innerHTML='<option>Nenhum atleta cadastrado</option>';return}athletes.forEach((a,i)=>{const o=document.createElement('option');o.value=i;o.textContent=a.name+' • '+a.cat;s.appendChild(o);});});
 showParent();
 }
-function addAthlete(){const a={name:document.getElementById('name').value.trim(),birth:document.getElementById('birth').value,sex:document.getElementById('sex').value,cat:document.getElementById('cat').value,guardian:document.getElementById('guardian').value.trim(),phone:document.getElementById('phone').value.trim()};if(!a.name||!a.birth||!a.sex){alert('Preencha nome, data de nascimento e sexo.');return}athletes.push(a);save();['name','birth','guardian','phone'].forEach(id=>document.getElementById(id).value='');document.getElementById('sex').value='';alert('Atleta cadastrado com sucesso!');render();}
+async function addAthlete(){
+  const nome = document.getElementById('name').value.trim();
+  const nascimento = document.getElementById('birth').value;
+  const sexo = document.getElementById('sex').value;
+  const categoria = document.getElementById('cat').value;
+  const responsavel = document.getElementById('guardian').value.trim();
+  const telefone = document.getElementById('phone').value.trim();
+
+  if(!nome){
+    alert('Digite o nome do atleta.');
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from('athletes')
+    .insert({
+      nome: nome,
+      data_nascimento: nascimento || null,
+      sexo: sexo || null,
+      categoria: categoria || null,
+      responsavel_id: null,
+      telefone_responsavel: telefone || null
+    })
+    .select()
+    .single();
+
+  if(error){
+    alert('Não foi possível salvar o atleta no banco online: ' + error.message);
+    return;
+  }
+
+  athletes.push({
+    id: data.id,
+    name: nome,
+    birth: nascimento,
+    sex: sexo,
+    cat: categoria,
+    guardian: responsavel,
+    phone: telefone
+  });
+
+  save();
+  render();
+
+  alert('Atleta salvo no banco online com sucesso!');
+}
 function saveEvaluation(){if(!athletes.length){alert('Cadastre um atleta primeiro.');return}const ai=+document.getElementById('athleteSelect').value,d=document.getElementById('date').value,w=+document.getElementById('weight').value,h=+document.getElementById('height').value;if(!d||!w||!h||w<2||h<40){alert('Preencha data, peso e altura corretamente.');return}const bmi=w/Math.pow(h/100,2);evaluations.push({ai,date:d,weight:+w.toFixed(1),height:+h.toFixed(1),bmi:+bmi.toFixed(1)});save();document.getElementById('result').innerHTML='<div class="panel"><h3>IMC calculado: '+bmi.toFixed(1)+'</h3><p class="muted">O IMC de menores de 18 anos precisa ser interpretado por idade e sexo. A classificação clínica deve usar a curva apropriada.</p></div>';render();}
 function showParent(){const i=+document.getElementById('parentSelect').value,a=athletes[i],v=document.getElementById('parentView');if(!a){v.innerHTML='<p class="muted">Nenhum atleta disponível.</p>';return}const es=evaluations.filter(x=>x.ai===i),e=es[es.length-1];v.innerHTML='<div class="panel"><h3>'+esc(a.name)+'</h3><p class="muted">'+a.cat+' • '+age(a.birth,e?e.date:today)+' anos</p>'+(e?'<div class="grid"><div><b>'+e.weight+' kg</b><div class="muted">Peso</div></div><div><b>'+e.height+' cm</b><div class="muted">Altura</div></div><div><b>'+e.bmi+'</b><div class="muted">IMC</div></div></div>':'<p class="muted">Ainda não há avaliação registrada.</p>')+'</div>';}
 render();
