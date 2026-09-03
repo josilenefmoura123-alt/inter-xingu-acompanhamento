@@ -130,8 +130,72 @@ async function addAthlete(){
   alert('Atleta salvo no banco online com sucesso!');
 }
 function saveEvaluation(){if(!athletes.length){alert('Cadastre um atleta primeiro.');return}const ai=+document.getElementById('athleteSelect').value,d=document.getElementById('date').value,w=+document.getElementById('weight').value,h=+document.getElementById('height').value;if(!d||!w||!h||w<2||h<40){alert('Preencha data, peso e altura corretamente.');return}const bmi=w/Math.pow(h/100,2);evaluations.push({ai,date:d,weight:+w.toFixed(1),height:+h.toFixed(1),bmi:+bmi.toFixed(1)});save();document.getElementById('result').innerHTML='<div class="panel"><h3>IMC calculado: '+bmi.toFixed(1)+'</h3><p class="muted">O IMC de menores de 18 anos precisa ser interpretado por idade e sexo. A classificação clínica deve usar a curva apropriada.</p></div>';render();}
-function showParent(){const i=+document.getElementById('parentSelect').value,a=athletes[i],v=document.getElementById('parentView');if(!a){v.innerHTML='<p class="muted">Nenhum atleta disponível.</p>';return}const es=evaluations.filter(x=>x.ai===i),e=es[es.length-1];v.innerHTML='<div class="panel"><h3>'+esc(a.name)+'</h3><p class="muted">'+a.cat+' • '+age(a.birth,e?e.date:today)+' anos</p>'+(e?'<div class="grid"><div><b>'+e.weight+' kg</b><div class="muted">Peso</div></div><div><b>'+e.height+' cm</b><div class="muted">Altura</div></div><div><b>'+e.bmi+'</b><div class="muted">IMC</div></div></div>':'<p class="muted">Ainda não há avaliação registrada.</p>')+'</div>';}
-render();
+function showParent(){
+  const i=+document.getElementById('parentSelect').value;
+  const a=athletes[i];
+  const v=document.getElementById('parentView');
+
+  if(!a){
+    v.innerHTML='<p class="muted">Nenhum atleta disponível.</p>';
+    return;
+  }
+
+  const es=evaluations
+    .filter(x=>x.ai==i)
+    .slice()
+    .sort((x,y)=>String(x.date).localeCompare(String(y.date)));
+
+  const ultima=es.length ? es[es.length-1] : null;
+
+  let historico='';
+
+  if(es.length){
+    historico=`
+      <h3>Evolução das avaliações</h3>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse">
+          <tr>
+            <th>Data</th>
+            <th>Peso</th>
+            <th>Altura</th>
+            <th>IMC</th>
+          </tr>
+          ${es.map(e=>`
+            <tr>
+              <td>${e.date}</td>
+              <td>${e.weight} kg</td>
+              <td>${e.height} cm</td>
+              <td>${e.bmi}</td>
+            </tr>
+          `).join('')}
+        </table>
+      </div>
+    `;
+  }else{
+    historico='<p class="muted">Ainda não há avaliação registrada.</p>';
+  }
+
+  v.innerHTML=`
+    <div class="panel">
+      <h3>${esc(a.name)}</h3>
+      <p class="muted">
+        Categoria: ${a.cat} • Idade: ${age(a.birth)} anos
+      </p>
+
+      ${ultima ? `
+        <div class="grid">
+          <div><b>${ultima.weight} kg</b><div class="muted">Peso</div></div>
+          <div><b>${ultima.height} cm</b><div class="muted">Altura</div></div>
+          <div><b>${ultima.bmi}</b><div class="muted">IMC</div></div>
+        </div>
+      ` : ''}
+
+      ${historico}
+    </div>
+  `;
+}
+
+  render();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
