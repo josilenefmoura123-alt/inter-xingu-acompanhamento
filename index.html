@@ -254,13 +254,16 @@ async function loginAdmin() {
 const atletaLink = new URLSearchParams(window.location.search).get('atleta');
   if (atletaLink !== null) {
     window.addEventListener('load', () => {
+    cost select = document.getElementById('parentSelect');  
       if (select) {
         select.selectedIndex = Number (atletaLink);
         showView('parents');
         showParent();
+      }
       });
+  }    
     
-  }
+  
           
       
 </script>
