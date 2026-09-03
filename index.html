@@ -269,7 +269,16 @@ if (atletaLink !== null) {
     
   
           
-      
+if (atletaLink !== null) {
+  setTimeout(() => {
+    const select = document.getElementById('parentSelect');
+    if (select) {
+      select.selectedIndex = Number(atletaLink);
+      go('parents');
+      showParent();
+    }
+  }, 2500);
+}      
 </script>
 </body>
 </html>
