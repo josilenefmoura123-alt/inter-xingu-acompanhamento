@@ -82,7 +82,7 @@ document.getElementById('last').textContent=evaluations.length?evaluations[evalu
 const list=document.getElementById('list');list.innerHTML='';
 if(!athletes.length){list.innerHTML='<span class="muted">Nenhum atleta cadastrado.</span>';}
 athletes.forEach((a,i)=>{const e=evaluations.filter(x=>x.ai===i).slice(-1)[0];const d=document.createElement('div');d.className='athlete';d.innerHTML='<div><b>'+esc(a.name)+'</b><div class="muted">'+a.cat+' • responsável: '+esc(a.guardian||'não informado')+'</div></div><span class="badge">'+(e?'IMC '+e.bmi:'Sem avaliação')+'</span>';list.appendChild(d);});
-['athleteSelect','parentSelect'].forEach(id=>{const s=document.getElementById(id);s.innerHTML='';if(!athletes.length){s.innerHTML='<option>Nenhum atleta cadastrado</option>';return}athletes.forEach((a,i)=>{const o=document.createElement('option');o.value=i;o.textContent=a.name+' • '+a.cat;s.appendChild(o);});});
+['athleteSelect','parentSelect'].forEach(id=>{const s=document.getElementById(id);s.innerHTML='';if(!athletes.length){s.innerHTML='<option>Nenhum atleta cadastrado</option>';return}athletes.forEach((a,i)=>{const o=document.createElement('option');o.value=i;o.textContent=a.nome+' • '+a.categoria;s.appendChild(o);});});
 showParent();
 }
 async function addAthlete(){
