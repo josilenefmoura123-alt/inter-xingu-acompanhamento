@@ -263,7 +263,7 @@ if (atletaLink !== null) {
     const select = document.getElementById('parentSelect');
 
     if (select) {
-      select.selectedIndex = Number(atletaLink);
+      select.value =atletaLink;
       go('parents');
       showParent();
     }
