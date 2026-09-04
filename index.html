@@ -143,7 +143,7 @@ function showParent(){
   }
 
   const es=evaluations
-    .filter(x=>x.ai==i)
+    .filter(x=>x.ai==i||x.atlete_id== a.id)
     .slice()
     .sort((x,y)=>String(x.date).localeCompare(String(y.date)));
 
