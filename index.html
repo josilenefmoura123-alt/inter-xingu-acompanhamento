@@ -252,7 +252,8 @@ async function loginAdmin() {
     .then(() => alert('Link do responsável copiado! Agora é só enviar para os pais.'))
     .catch(() => prompt('Copie este link e envie para o responsável:', link));
 } 
-const atletaLink = new URLSearchParams(window.location.search).get('atleta');
+window.addEventListener('load',()=>{
+  const atletaLink = new URLSearchParams(window.location.search).get('atleta');
   if (atletaLink !== null) document.getElementById('dashboard').classList.add('hidden');
 
 if (atletaLink !== null) {
@@ -270,7 +271,7 @@ if (atletaLink !== null) {
   
           
 
-    
+});    
 </script>
 </body>
 </html>
