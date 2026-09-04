@@ -118,12 +118,12 @@ async function addAthlete(){
 
   athletes.push({
     id: data.id,
-    name: nome,
-    birth: nascimento,
-    sex: sexo,
-    cat: categoria,
-    guardian: responsavel,
-    phone: telefone
+    nome: nome,
+    data_nascimento: nascimento,
+    sexo: sexo,
+    categoria: categoria,
+    responsavel: responsavel,
+    telefone_responsavel: telefone
   });
 
   save();
@@ -179,9 +179,9 @@ function showParent(){
 
   v.innerHTML=`
     <div class="panel">
-      <h3>${esc(a.name)}</h3>
+      <h3>${esc(a.nome)}</h3>
       <p class="muted">
-        Categoria: ${a.cat} • Idade: ${age(a.birth,today)} anos
+        Categoria: ${a.categoria} • Idade: ${age(a.data_nascimento,today)} anos
       </p>
 
       ${ultima ? `
