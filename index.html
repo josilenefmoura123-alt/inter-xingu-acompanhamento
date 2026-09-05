@@ -247,7 +247,7 @@ async function loginAdmin() {
     return;
   }
 
-  const atletaIndex = select.selectedIndex;
+  const atletaIndex = atletes[select.selectedIndex].id;
   const link = window.location.origin + window.location.pathname + '?atleta=' + atletaIndex;
 
   navigator.clipboard.writeText(link)
@@ -267,7 +267,8 @@ setTimeout(() => {
     const select = document.getElementById('parentSelect');
 
     if (select) {
-      select.value =atletaLink;
+      const indiceAtleta = athletes.findIndex(a => String(a.id) === String(atletaLink));
+if (indiceAtleta >= 0) select.selectedIndex = indiceAtleta;
       go('parents');
       showParent();
     }
