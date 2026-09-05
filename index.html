@@ -257,9 +257,10 @@ async function loginAdmin() {
 window.addEventListener('load',()=>{
   const atletaLink = new URLSearchParams(window.location.search).get('atleta');
   if (atletaLink !== null) document.getElementById('dashboard').classList.add('hidden');
+  
 
 if (atletaLink !== null) {
-
+document.getElementById('btnGerarLink').style.display='none';
 setTimeout(() => {
     const select = document.getElementById('parentSelect');
 
