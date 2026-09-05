@@ -247,7 +247,7 @@ async function loginAdmin() {
     return;
   }
 
-  const atletaIndex = atletes[select.selectedIndex].id;
+  const atletaIndex = athletes[select.selectedIndex].id;
   const link = window.location.origin + window.location.pathname + '?atleta=' + atletaIndex;
 
   navigator.clipboard.writeText(link)
