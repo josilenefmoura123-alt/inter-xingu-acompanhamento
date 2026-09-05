@@ -260,6 +260,8 @@ window.addEventListener('load',()=>{
   
 
 if (atletaLink !== null) {
+  document.getElementById('parentSelect').disabled = true;
+  document.getElementById('btnGerarLink').style.display='none';
 document.getElementById('btnGerarLink').style.display='none';
 setTimeout(() => {
     const select = document.getElementById('parentSelect');
