@@ -256,7 +256,29 @@ async function loginResponsavel() {
   await carregarAtletasOnline();
   return true;
 }
+supabaseClient.auth.onAuthStateChange(async (event) => {
+  if (event === 'PASSWORD_RECOVERY') {
+    const novaSenha = prompt('Digite sua nova senha:');
+    if (!novaSenha) return;
 
+    const confirmarSenha = prompt('Digite novamente a nova senha:');
+    if (novaSenha !== confirmarSenha) {
+      alert('As senhas não são iguais.');
+      return;
+    }
+
+    const { error } = await supabaseClient.auth.updateUser({
+      password: novaSenha
+    });
+
+    if (error) {
+      alert('Não foi possível alterar a senha.');
+      return;
+    }
+
+    alert('Senha alterada com sucesso!');
+  }
+});
  function gerarLinkResponsavel() {
    
   const select = document.getElementById('parentSelect');
