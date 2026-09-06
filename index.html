@@ -236,7 +236,26 @@ async function loginAdmin() {
 
   alert('Login realizado com sucesso!');
 }
+async function loginResponsavel() {
+  const email = prompt('E-mail do responsável:');
+  if (!email) return false;
 
+  const senha = prompt('Senha do responsável:');
+  if (!senha) return false;
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: senha
+  });
+
+  if (error) {
+    alert('E-mail ou senha incorretos.');
+    return false;
+  }
+
+  await carregarAtletasOnline();
+  return true;
+}
 
  function gerarLinkResponsavel() {
    
@@ -254,8 +273,18 @@ async function loginAdmin() {
     .then(() => alert('Link do responsável copiado! Agora é só enviar para os pais.'))
     .catch(() => prompt('Copie este link e envie para o responsável:', link));
 } 
-window.addEventListener('load',()=>{
+window.addEventListener('load', async ()=>{
   const atletaLink = new URLSearchParams(window.location.search).get('atleta');
+  if (atletaLink !== null) {
+  const { data } = await supabaseClient.auth.getSession();
+
+  if (!data.session) {
+    const entrou = await loginResponsavel();
+    if (!entrou) return;
+  } else {
+    await carregarAtletasOnline();
+  }
+}
   if (atletaLink !== null) document.getElementById('dashboard').classList.add('hidden');
   
 
