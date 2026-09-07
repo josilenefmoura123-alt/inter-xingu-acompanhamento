@@ -255,7 +255,7 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       return;
     }
     athletes = (data || []).map(a => ({...a, name:a.nome, birth:a.data_nascimento, cat:a.categoria, sex:a.sexo, phone:a.telefone_responsavel}));
-    render();
+    
     
   } 
 async function carregarAvaliacoesOnline(){
