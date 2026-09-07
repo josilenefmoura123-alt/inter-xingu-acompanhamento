@@ -229,9 +229,9 @@ function showParent(){
 
       ${ultima ? `
         <div class="grid">
-          <div><b>${ultima.weight} kg</b><div class="muted">Peso</div></div>
-          <div><b>${ultima.height} cm</b><div class="muted">Altura</div></div>
-          <div><b>${ultima.bmi}</b><div class="muted">IMC</div></div>
+       <div>${ultima.peso ?? ultima.weight} kg</div>
+<div>${ultima.altura ?? ultima.height} cm</div>
+<div>${ultima.imc ?? ultima.bmi}</div>  
         </div>
       ` : ''}
 
