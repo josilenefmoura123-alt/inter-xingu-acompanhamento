@@ -166,7 +166,7 @@ async function addAthlete(){
     return;
   }
 
-  
+ await carregarAvaliacoesOnline(); 
 
   document.getElementById('result').innerHTML =
     '<div class="panel"><h3>IMC calculado: ' +
