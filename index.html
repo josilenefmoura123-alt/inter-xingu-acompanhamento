@@ -361,7 +361,7 @@ window.addEventListener('load', async ()=>{
     if (!entrou) return;
   } else {
     await carregarAtletasOnline();
-    wait carregarAvaliacoesOnline();
+    await carregarAvaliacoesOnline();
   }
 }
   if (atletaLink !== null) document.getElementById('dashboard').classList.add('hidden');
