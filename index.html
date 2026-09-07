@@ -207,10 +207,10 @@ function showParent(){
           </tr>
           ${es.map(e=>`
             <tr>
-              <td>${e.date}</td>
-              <td>${e.weight} kg</td>
-              <td>${e.height} cm</td>
-              <td>${e.bmi}</td>
+           <td>${e.data_avaliacao || e.date}</td>
+<td>${e.peso ?? e.weight} kg</td>
+<td>${e.altura ?? e.height} cm</td>
+<td>${e.imc ?? e.bmi}</td> 
             </tr>
           `).join('')}
         </table>
