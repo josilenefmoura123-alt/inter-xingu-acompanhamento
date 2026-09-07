@@ -186,17 +186,22 @@ function showParent(){
   }
 
   const es=evaluations
-    .filter(x=>x.ai==i||x.atleta_id== a.id)
+    .filter(x=>x.ai==i || String(x.atleta_id)===String(a.id))
     .slice()
-    .sort((x,y)=>String(x.date).localeCompare(String(y.date)));
+    .sort((x,y)=>String(x.data_avaliacao||x.date).localeCompare(String(y.data_avaliacao||y.date)));
 
   const ultima=es.length ? es[es.length-1] : null;
+
+  const formatarData=(d)=>{
+    if(!d) return '—';
+    return new Date(d+'T12:00:00').toLocaleDateString('pt-BR');
+  };
 
   let historico='';
 
   if(es.length){
     historico=`
-      <h3>Evolução das avaliações</h3>
+      <h3>📈 Evolução das avaliações</h3>
       <div style="overflow-x:auto">
         <table style="width:100%;border-collapse:collapse">
           <tr>
@@ -207,10 +212,10 @@ function showParent(){
           </tr>
           ${es.map(e=>`
             <tr>
-      <td>${new Date((e.data_avaliacao || e.date)+'T12:00:00').toLocaleDateString('pt-BR')}</td>     
-<td>${e.peso ?? e.weight} kg</td>
-<td>${e.altura ?? e.height} cm</td>
-<td>${e.imc ?? e.bmi}</td> 
+              <td>${formatarData(e.data_avaliacao||e.date)}</td>
+              <td>${e.peso ?? e.weight} kg</td>
+              <td>${e.altura ?? e.height} cm</td>
+              <td>${e.imc ?? e.bmi}</td>
             </tr>
           `).join('')}
         </table>
@@ -222,16 +227,17 @@ function showParent(){
 
   v.innerHTML=`
     <div class="panel">
-      <h3>${esc(a.nome)}</h3>
+      <h2>${esc(a.nome)}</h2>
       <p class="muted">
         Categoria: ${a.categoria} • Idade: ${age(a.data_nascimento,today)} anos
       </p>
 
       ${ultima ? `
+        <h3>📋 Última avaliação</h3>
         <div class="grid">
-       <div>${ultima.peso ?? ultima.weight} kg</div>
-<div>${ultima.altura ?? ultima.height} cm</div>
-<div>${ultima.imc ?? ultima.bmi}</div>  
+          <div><strong>${ultima.peso ?? ultima.weight} kg</strong><br><span class="muted">Peso</span></div>
+          <div><strong>${ultima.altura ?? ultima.height} cm</strong><br><span class="muted">Altura</span></div>
+          <div><strong>${ultima.imc ?? ultima.bmi}</strong><br><span class="muted">IMC</span></div>
         </div>
       ` : ''}
 
