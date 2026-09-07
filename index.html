@@ -132,6 +132,7 @@ async function addAthlete(){
   alert('Atleta salvo no banco online com sucesso!');
 }
 function saveEvaluation(){if(!athletes.length){alert('Cadastre um atleta primeiro.');return}const ai=+document.getElementById('athleteSelect').value,d=document.getElementById('date').value,w=+document.getElementById('weight').value,h=+document.getElementById('height').value;if(!d||!w||!h||w<2||h<40){alert('Preencha data, peso e altura corretamente.');return}const bmi=w/Math.pow(h/100,2);evaluations.push({ai,date:d,weight:+w.toFixed(1),height:+h.toFixed(1),bmi:+bmi.toFixed(1)});save();document.getElementById('result').innerHTML='<div class="panel"><h3>IMC calculado: '+bmi.toFixed(1)+'</h3><p class="muted">O IMC de menores de 18 anos precisa ser interpretado por idade e sexo. A classificação clínica deve usar a curva apropriada.</p></div>';render();}
+ console.log('TESTE AVALIAÇÃO'); 
 function showParent(){
   const i=+document.getElementById('parentSelect').value;
   const a=athletes[i];
