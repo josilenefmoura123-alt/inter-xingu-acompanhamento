@@ -207,7 +207,7 @@ function showParent(){
           </tr>
           ${es.map(e=>`
             <tr>
-           <td>${e.data_avaliacao || e.date}</td>
+      <td>${new Date((e.data_avaliacao || e.date)+'T12:00:00').toLocaleDateString('pt-BR')}</td>     
 <td>${e.peso ?? e.weight} kg</td>
 <td>${e.altura ?? e.height} cm</td>
 <td>${e.imc ?? e.bmi}</td> 
